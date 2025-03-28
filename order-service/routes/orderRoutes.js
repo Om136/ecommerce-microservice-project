@@ -17,8 +17,8 @@ router.get('/', authMiddleware(['1']), orderController.getAllOrders);
 
 router.put('/cancel/:order_id', authMiddleware(['1','2']), orderController.cancelOrder);
 
-router.post('/payment', authMiddleware(['2']), orderController.payOrder);
+// router.post('/payment', authMiddleware(['2']), orderController.payOrder);
 
-router.post('/payment/callback', orderController.payOrderCallback);
+// router.post('/payment/callback', orderController.payOrderCallback);
 
 module.exports = router

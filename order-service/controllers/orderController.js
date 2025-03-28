@@ -305,97 +305,97 @@ exports.cancelOrder = (req, res) => {
   });
 };
 
-exports.payOrder = async (req, res) => {
-  const { order_id, platform } = req.body;
+// exports.payOrder = async (req, res) => {
+//   const { order_id, platform } = req.body;
 
-  try {
-    orderModel.getOrderById(order_id, async (err, order) => {
-      if (err) return res.status(500).json({ message: "Cannot get order" });
+//   try {
+//     orderModel.getOrderById(order_id, async (err, order) => {
+//       if (err) return res.status(500).json({ message: "Cannot get order" });
 
-      order = order[0];
+//       order = order[0];
 
-      let redirect_url;
-      const appRedirectUrl = "mobile-app://"; // Replace with the URL scheme of the mobile app
+//       let redirect_url;
+//       const appRedirectUrl = "mobile-app://"; // Replace with the URL scheme of the mobile app
 
-      if (platform === "web") {
-        redirect_url = `http://localhost:5500/client/order/order.html`;
-      } else if (platform === "android" || platform === "ios") {
-        redirect_url = `${appRedirectUrl}order/${order.id}`;
-      } else {
-        return res.status(400).json({ message: "Invalid platform" });
-      }
+//       if (platform === "web") {
+//         redirect_url = `http://localhost:5500/client/order/order.html`;
+//       } else if (platform === "android" || platform === "ios") {
+//         redirect_url = `${appRedirectUrl}order/${order.id}`;
+//       } else {
+//         return res.status(400).json({ message: "Invalid platform" });
+//       }
 
-      // Add redirect_url to embed_data
-      const embed_data = {
-        order_id: order.id,
-        redirecturl: redirect_url, // URL to return to web/app
-      };
+//       // Add redirect_url to embed_data
+//       const embed_data = {
+//         order_id: order.id,
+//         redirecturl: redirect_url, // URL to return to web/app
+//       };
 
-      // Payment logic (ZaloPay API)
-      const paymentResponse = await axios.post(
-        "http://localhost:3006/api/payment",
-        {
-          order_id: order.id,
-          amount: order.total_amount,
-          embed_data: JSON.stringify(embed_data),
-        }
-      );
+//       // Payment logic (ZaloPay API)
+//       const paymentResponse = await axios.post(
+//         "http://localhost:3006/api/payment",
+//         {
+//           order_id: order.id,
+//           amount: order.total_amount,
+//           embed_data: JSON.stringify(embed_data),
+//         }
+//       );
 
-      return res.json({
-        message: "Payment initialized successfully",
-        payment_link: paymentResponse.data.order_url,
-        order,
-      });
-    });
-  } catch (error) {
-    console.error("Error in payment process:", error.message || error);
-    return res
-      .status(error.status || 500)
-      .json({ message: error.message || "Internal server error" });
-  }
-};
+//       return res.json({
+//         message: "Payment initialized successfully",
+//         payment_link: paymentResponse.data.order_url,
+//         order,
+//       });
+//     });
+//   } catch (error) {
+//     console.error("Error in payment process:", error.message || error);
+//     return res
+//       .status(error.status || 500)
+//       .json({ message: error.message || "Internal server error" });
+//   }
+// };
 
-const config = {
-  key2: "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf", // Callback only needs key2
-};
+// const config = {
+//   key2: "trMrHtvjo6myautxDUiAcYsVtaeQ8nhf", // Callback only needs key2
+// };
 
-exports.payOrderCallback = async (req, res) => {
-  console.log("payOrderCallback called:", req.body);
-  try {
-    const dataStr = req.body.data;
-    console.log("dataStr:", dataStr);
-    const reqMac = req.body.mac;
-    const status = "paid";
+// exports.payOrderCallback = async (req, res) => {
+//   console.log("payOrderCallback called:", req.body);
+//   try {
+//     const dataStr = req.body.data;
+//     console.log("dataStr:", dataStr);
+//     const reqMac = req.body.mac;
+//     const status = "paid";
 
-    const mac = CryptoJS.HmacSHA256(dataStr, config.key2).toString();
+//     const mac = CryptoJS.HmacSHA256(dataStr, config.key2).toString();
 
-    // Check if callback is valid
-    if (reqMac !== mac) {
-      return res.json({ return_code: -1, return_message: "mac not equal" });
-    }
+//     // Check if callback is valid
+//     if (reqMac !== mac) {
+//       return res.json({ return_code: -1, return_message: "mac not equal" });
+//     }
 
-    const dataJson = JSON.parse(dataStr);
-    console.log("dataJson:", dataJson);
-    const { order_id } = JSON.parse(dataJson.embed_data);
+//     const dataJson = JSON.parse(dataStr);
+//     console.log("dataJson:", dataJson);
+//     const { order_id } = JSON.parse(dataJson.embed_data);
 
-    // Update order status
-    orderModel.updateOrderStatus(order_id, status, (err, result) => {
-      if (err) {
-        console.error("Error updating order status:", err);
-        return res.json({
-          return_code: 0,
-          return_message: "Error updating order status",
-        });
-      }
-      if (result.affectedRows === 0) {
-        console.error("Order not found:", order_id);
-        return res.json({ return_code: 0, return_message: "Order not found" });
-      }
-      console.log(`Order ${order_id} status updated to paid`);
-      return res.json({ return_code: 1, return_message: "success" });
-    });
-  } catch (error) {
-    console.error("Error in payment callback:", error);
-    return res.json({ return_code: 0, return_message: error.message });
-  }
-};
+//     // Update order status
+//     orderModel.updateOrderStatus(order_id, status, (err, result) => {
+//       if (err) {
+//         console.error("Error updating order status:", err);
+//         return res.json({
+//           return_code: 0,
+//           return_message: "Error updating order status",
+//         });
+//       }
+//       if (result.affectedRows === 0) {
+//         console.error("Order not found:", order_id);
+//         return res.json({ return_code: 0, return_message: "Order not found" });
+//       }
+//       console.log(`Order ${order_id} status updated to paid`);
+//       return res.json({ return_code: 1, return_message: "success" });
+//     });
+//   } catch (error) {
+//     console.error("Error in payment callback:", error);
+//     return res.json({ return_code: 0, return_message: error.message });
+//   }
+// };

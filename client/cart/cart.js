@@ -226,37 +226,37 @@ document.querySelector(".cart-items").addEventListener("click", (event) => {
 });
 
 // Handle payment API call
-async function handlePayment(orderId) {
-  try {
-    const response = await fetch("http://localhost:3000/api/order/payment", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${Token}`,
-      },
-      body: JSON.stringify({
-        order_id: orderId,
-        platform: "web",
-      }), // Send order_id to API
-    });
+// async function handlePayment(orderId) {
+//   try {
+//     const response = await fetch("http://localhost:3000/api/order/payment", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${Token}`,
+//       },
+//       body: JSON.stringify({
+//         order_id: orderId,
+//         platform: "web",
+//       }), // Send order_id to API
+//     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || "Payment failed");
-    }
+//     if (!response.ok) {
+//       const errorData = await response.json();
+//       throw new Error(errorData.message || "Payment failed");
+//     }
 
-    const responseData = await response.json();
-    // Handle API response (e.g., payment link from ZaloPay)
-    if (responseData.payment_link) {
-      window.location.href = responseData.payment_link; // Redirect to payment link
-    } else {
-      alert("Payment successful!"); // Or handle as required
-    }
-  } catch (error) {
-    console.error("Payment error:", error.message);
-    alert("Payment failed: " + error.message);
-  }
-}
+//     const responseData = await response.json();
+//     // Handle API response (e.g., payment link from ZaloPay)
+//     if (responseData.payment_link) {
+//       window.location.href = responseData.payment_link; // Redirect to payment link
+//     } else {
+//       alert("Payment successful!"); // Or handle as required
+//     }
+//   } catch (error) {
+//     console.error("Payment error:", error.message);
+//     alert("Payment failed: " + error.message);
+//   }
+// }
 
 async function createOrder() {
   const phone = document.getElementById("phone").value;
