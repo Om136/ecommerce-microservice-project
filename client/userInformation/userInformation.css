@@ -1,0 +1,35 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(to left, #f8e9e8, #e5f6f6, #fff0f5);
+}
+
+.user-info-container {
+  margin: 20px auto;
+  max-width: 70%;
+}
+
+.form-group label {
+    color: #555;
+}
+
+.user-info-container button {
+    width: 100%;
+}
+
+.save-btn {
+  margin-top: 20px;
+  margin-bottom: 50px;
+}
+/* Responsive */
+@media (max-width: 768px) {
+    .user-info-container {
+      width: 95%;
+    }
+    .save-btn {
+      width: 100%;
+      margin-top: 20px;
+      margin-bottom: 50px;
+    }
+}

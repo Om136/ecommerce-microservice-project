@@ -1,0 +1,85 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to left, #f8e9e8, #e5f6f6, #fff0f5);
+}
+
+.product-image {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* .product-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+} */
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to left, #f8e9e8, #e5f6f6, #fff0f5);
+}
+
+.product-image {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    height: 400px;
+}
+
+.product-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* CSS cho sản phẩm liên quan */
+.related-products-container {
+    background-color: #fff;
+    z-index: 10;
+    padding: 20px;
+}
+
+.related-products-list .card {
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 15px;
+    flex-shrink: 0;
+    width: 200px;
+    transition: transform 0.5s ease-in-out;
+}
+
+.related-products-list .card:hover {
+    transform: translateY(-5px); /* Hiệu ứng hover làm card nổi lên */
+}
+
+.related-products-list .card-img-top {
+    width: 100%;
+    height: 200px;
+    padding: 5px;
+    object-fit: cover;
+}
+
+.related-products-list .card-title {
+    text-decoration: none;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+.related-products-list .card-title:hover {
+    text-decoration: none;
+}
+
+.related-products-list .card-text {
+    font-size: 14px;
+}
+.related-products-list{
+    width: fit-content;
+    display: flex;
+    margin: auto;
+    justify-content: center; /* Căn giữa các card */
+    transition: transform 0.5s ease-in-out; /* Thêm transition cho transform */
+}

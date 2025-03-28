@@ -1,0 +1,71 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to left, #f8e9e8, #e5f6f6, #fff0f5);
+}
+
+.table-responsive {
+    border-radius: 10px;
+    overflow: hidden; 
+}
+
+.actions-btn {
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+}
+
+.actions-btn a,
+.actions-btn .cancel-btn {
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: opacity 0.3s ease;
+    font-size: 16px;
+    line-height: 1.5;
+    padding: 0.375rem 0.75rem;
+}
+
+.actions-btn a:hover,
+.actions-btn .cancel-btn:hover {
+    opacity: 0.8;
+}
+
+.statusHeader {
+    border: none;
+    padding: 0;
+    background: none;
+    cursor: pointer;
+    vertical-align: middle;
+}
+.statusHeader:focus {
+    outline: none;
+    box-shadow: none;
+}
+.statusHeader i {
+    font-size: 0.8em;
+}
+
+/* Phân trang */
+.pagination .page-item .page-link {
+    border-radius: 5px;
+    margin: 0 2px;
+    color: #007bff; /* Màu chữ mặc định */
+}
+
+.pagination .page-item:not(.active) .page-link:hover {
+  background-color: #f0f0f0; /* Màu nền khi hover */
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white; /* Màu chữ khi active */
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}

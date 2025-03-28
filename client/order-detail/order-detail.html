@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Order Details</title>
+    <script
+      src="https://kit.fontawesome.com/91c8b57a30.js"
+      crossorigin="anonymous"
+    ></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./order-detail.css" />
+  </head>
+
+  <body>
+    <!-- Placeholder for header -->
+    <div id="header-container"></div>
+
+    <div class="container mb-5">
+      <div class="order-detail-container">
+        <h2 class="text-center mb-4">Order Details</h2>
+        <div id="order-details-container" class="order-info-grid"></div>
+        <!-- Table of products in the order -->
+        <div class="table-responsive">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <!-- Products will be inserted here -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Select order status -->
+        <div
+          class="status-select d-flex justify-content-between align-items-center"
+        >
+          <select
+            id="orderStatus"
+            class="form-select justify-content-between align-items-center"
+          >
+            <option value="pending" disabled>Pending</option>
+            <option value="paid" disabled>Paid</option>
+            <option value="shipping">Shipping</option>
+            <option value="completed">Completed</option>
+            <option value="canceled">Canceled</option>
+          </select>
+        </div>
+
+        <!-- Update status button -->
+        <div class="text-center mt-3">
+          <button class="update-btn btn btn-success" id="updateStatusBtn">
+            Update Status
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id="footer-container"></div> -->
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        fetch("../header/header.html")
+          .then((response) => response.text())
+          .then((data) => {
+            document.getElementById("header-container").innerHTML = data;
+
+            // Load header.js explicitly after header.html is fetched
+            const script = document.createElement("script");
+            script.src = "../header/header.js";
+            script.onload = () => {
+              if (typeof initializeHeader === "function") {
+                initializeHeader(); // Call the function after header.js is loaded
+              } else {
+                console.error(
+                  "initializeHeader function not found in header.js"
+                );
+              }
+            };
+            document.body.appendChild(script);
+
+            checkAndDisplayProductLink();
+          })
+          .catch((err) => console.error("Error loading header.html:", err));
+      });
+    </script>
+
+    <script src="../checkAuth.js"></script>
+    <script src="../check-permission.js"></script>
+    <script src="./order-detail.js"></script>
+    <script src="../footer/footer.js"></script>
+  </body>
+</html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Form</title>
+  </head>
+
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    "
+  >
+    <div
+      class="container"
+      style="
+        display: flex;
+        max-width: 800px;
+        width: 100%;
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+      "
+    >
+      <div
+        class="form-container"
+        style="
+          width: 50%;
+          padding: 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        "
+      >
+        <h2 style="margin-bottom: 20px; font-size: 24px">Login</h2>
+        <form id="loginForm">
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            required
+            style="
+              width: 100%;
+              padding: 12px;
+              margin: 10px 0;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              font-size: 16px;
+            "
+          />
+          <input
+            type="password"
+            id="password"
+            placeholder="Password"
+            required
+            style="
+              width: 100%;
+              padding: 12px;
+              margin: 10px 0;
+              border: 1px solid #ccc;
+              border-radius: 4px;
+              font-size: 16px;
+            "
+          />
+          <div
+            class="remember-forgot"
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin: 10px 0;
+            "
+          ></div>
+          <button
+            id="loginButton"
+            type="submit"
+            style="
+              width: 108%;
+              padding: 12px;
+              background-color: #ff416c;
+              color: white;
+              border: none;
+              border-radius: 4px;
+              cursor: pointer;
+              font-size: 16px;
+            "
+          >
+            Login
+          </button>
+          <p
+            id="errorMessage"
+            class="error"
+            style="color: red; font-size: 14px; margin-top: 10px"
+          ></p>
+        </form>
+      </div>
+      <div
+        class="info-container"
+        style="
+          width: 50%;
+          background: linear-gradient(to right, #ff4b2b, #ff416c);
+          color: white;
+          padding: 40px;
+          border-top-right-radius: 10px;
+          border-bottom-right-radius: 10px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+        "
+      >
+        <h2 style="margin: 0; font-size: 28px; text-align: center">
+          Welcome to the system
+        </h2>
+        <p style="margin: 20px 0; font-size: 16px">Don't have an account?</p>
+        <a href="../register/register.html">
+          <button
+            style="
+              width: auto;
+              background-color: transparent;
+              border: 1px solid white;
+              padding: 10px 20px;
+              border-radius: 20px;
+              font-size: 16px;
+              cursor: pointer;
+              color: white;
+            "
+          >
+            Register
+          </button>
+        </a>
+      </div>
+    </div>
+
+    <!-- Link your JavaScript file -->
+    <script src="login.js"></script>
+  </body>
+</html>

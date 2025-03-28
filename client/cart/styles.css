@@ -1,0 +1,123 @@
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to left, #f8e9e8, #e5f6f6, #fff0f5);
+}
+
+.cart-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Nếu bạn muốn override styles của Bootstrap, bạn có thể thêm vào đây */
+.cart-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+}
+
+.product-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 8px;
+}
+
+.item-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.product-name {
+    font-size: 18px;
+    color: #333;
+    width: 200px;
+}
+
+.product-price {
+    font-size: 18px;
+    color: #fa541c;
+    width: 100px;
+    text-align: center;
+    font-weight: bold;
+}
+
+.quantity-controls {
+    display: flex;
+    align-items: center;
+    width: 120px;
+    text-align: center;
+    gap: 10px;
+}
+
+.quantity-controls button {
+    padding: 5px;
+    border: none;
+    background-color: #ff6600;
+    color: white;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.quantity-controls button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.quantity {
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.remove-item {
+    background-color: #ff0000;
+    color: white;
+    padding: 5px 8px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.remove-item:hover {
+    background-color: #d40000;
+}
+
+.cart-total {
+    color: #ff0000;
+    font-weight: bold;
+}
+
+.card-body .btn {
+    width: 100%;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .cart-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .item-details {
+        flex-direction: column;
+        align-items: flex-start;
+        margin-left: 0;
+    }
+    .product-image {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    .product-name {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+    .quantity-controls {
+        margin-right: 0;
+    }
+}

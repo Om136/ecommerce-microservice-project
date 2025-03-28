@@ -1,0 +1,96 @@
+/* product.css */
+body {
+  background: linear-gradient(to left, #f8e9e8, #e5f6f6, #fff0f5);
+}
+
+.product-management-container {
+  margin: 40px auto;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.add-product-btn,
+.delete-selected-btn {
+  width: 80px;
+  padding: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.delete-selected-btn {
+  padding: 4px;
+}
+
+th,
+td {
+  text-align: left;
+  max-width: 100px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  word-break: break-all;
+}
+
+.actions-btn {
+  text-align: right;
+  width: 100px;
+}
+
+.select-product {
+  text-align: center;
+}
+
+th.select-product,
+td.select-product {
+  width: 50px;
+}
+
+th.actions-btn,
+td.actions-btn {
+  width: 50px;
+}
+
+.page-btn {
+  margin: 0 5px;
+}
+
+.page-btn.active {
+  background-color: #007bff !important;
+  border-color: #007bff !important;
+  color: white !important;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .product-management-container {
+    width: 100%;
+    padding: 10px;
+  }
+
+  table {
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-management-container {
+    padding: 5px;
+  }
+
+  table {
+    font-size: 12px;
+  }
+
+  th,
+  td {
+    padding: 5px;
+  }
+}
