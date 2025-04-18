@@ -1,10 +1,33 @@
 const express = require("express");
 const jwt = require("jsonwebtoken");
 const axios = require("axios");
+const metrics = require('../monitoring/metrics');
 const app = express();
 require("dotenv").config();
 
 app.use(express.json());
+
+// Metrics middleware
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    metrics.httpRequestDurationMicroseconds
+      .labels(req.method, req.path, res.statusCode)
+      .observe(duration / 1000);
+    metrics.httpRequestsTotal
+      .labels(req.method, req.path, res.statusCode)
+      .inc();
+  });
+  next();
+});
+
+// Expose metrics endpoint for Prometheus
+app.get('/metrics', async (req, res) => {
+  res.setHeader('Content-Type', metrics.register.contentType);
+  const metrics = await metrics.register.metrics();
+  res.send(metrics);
+});
 
 // Verify JWT and return user information (role, id)
 app.post("/api/auth/verify", async (req, res) => {
