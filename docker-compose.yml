@@ -4,7 +4,7 @@ services:
   client:
     build: ./client
     ports:
-      - "8080:8080"
+      - "8081:8080" # Changed from 8080:8080
     depends_on:
       - api-gateway
 
@@ -20,6 +20,8 @@ services:
       - product-service
       - cart-service
       - order-service
+    volumes:
+      - ./monitoring:/app/monitoring
 
   auth-service:
     build: ./auth-service
@@ -30,6 +32,8 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - mysql-db
+    volumes:
+      - ./monitoring:/app/monitoring
 
   user-service:
     build: ./user-service
@@ -45,6 +49,8 @@ services:
       - JWT_SECRET=${JWT_SECRET}
     depends_on:
       - mysql-db
+    volumes:
+      - ./monitoring:/app/monitoring
 
   product-service:
     build: ./product-service
@@ -58,6 +64,7 @@ services:
       - DB_NAME=${DB_NAME}
       - DB_PORT=3306
     volumes:
+      - ./monitoring:/app/monitoring
       - product-uploads:/app/uploads
     depends_on:
       - mysql-db
@@ -75,6 +82,8 @@ services:
       - DB_PORT=3306
     depends_on:
       - mysql-db
+    volumes:
+      - ./monitoring:/app/monitoring
 
   order-service:
     build: ./order-service
@@ -89,6 +98,8 @@ services:
       - DB_PORT=3306
     depends_on:
       - mysql-db
+    volumes:
+      - ./monitoring:/app/monitoring
 
   mysql-db:
     image: mysql:8.0
