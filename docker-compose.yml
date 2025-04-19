@@ -1,17 +1,15 @@
-version: "3.8"
-
 services:
   client:
     build: ./client
     ports:
-      - "8081:8080" # Changed from 8080:8080
+      - "8081:8080"
     depends_on:
       - api-gateway
 
   api-gateway:
     build: ./api-gateway
     ports:
-      - "3000:3000"
+      - "3010:3000"
     environment:
       - NODE_ENV=production
     depends_on:
@@ -20,97 +18,176 @@ services:
       - product-service
       - cart-service
       - order-service
-    volumes:
-      - ./monitoring:/app/monitoring
+    command: node server.js  # Simplified command
 
-  auth-service:
-    build: ./auth-service
+  # User Service with dedicated database
+  user-db:
+    image: mysql:8.0
     ports:
-      - "3001:3001"
+      - "3302:3306"
     environment:
-      - NODE_ENV=production
-      - JWT_SECRET=${JWT_SECRET}
-    depends_on:
-      - mysql-db
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=user_db
     volumes:
-      - ./monitoring:/app/monitoring
-
+      - user-db-data:/var/lib/mysql
+      - ./db-init/user:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      
   user-service:
     build: ./user-service
     ports:
       - "3002:3002"
     environment:
       - NODE_ENV=production
-      - DB_HOST=mysql-db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - DB_HOST=user-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=user_db
       - DB_PORT=3306
       - JWT_SECRET=${JWT_SECRET}
+      - RETRY_CONNECT=10
     depends_on:
-      - mysql-db
-    volumes:
-      - ./monitoring:/app/monitoring
+      user-db:
+        condition: service_healthy
+    command: node server.js  # Simplified command
+    restart: on-failure
 
+  # Auth Service (no dedicated database, uses user-db)
+  auth-service:
+    build: ./auth-service
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - DB_HOST=user-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=user_db
+      - DB_PORT=3306
+      - JWT_SECRET=${JWT_SECRET}
+      - RETRY_CONNECT=10
+    depends_on:
+      user-db:
+        condition: service_healthy
+    command: node server.js  # Simplified command
+    restart: on-failure
+
+  # Product Service with dedicated database
+  product-db:
+    image: mysql:8.0
+    ports:
+      - "3303:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=product_db
+    volumes:
+      - product-db-data:/var/lib/mysql
+      - ./db-init/product:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      
   product-service:
     build: ./product-service
     ports:
       - "3003:3003"
     environment:
       - NODE_ENV=production
-      - DB_HOST=mysql-db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - DB_HOST=product-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=product_db
       - DB_PORT=3306
+      - RETRY_CONNECT=10
     volumes:
-      - ./monitoring:/app/monitoring
       - product-uploads:/app/uploads
     depends_on:
-      - mysql-db
+      product-db:
+        condition: service_healthy
+    command: node server.js  # Simplified command
+    restart: on-failure
 
+  # Cart Service with dedicated database
+  cart-db:
+    image: mysql:8.0
+    ports:
+      - "3304:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=cart_db
+    volumes:
+      - cart-db-data:/var/lib/mysql
+      - ./db-init/cart:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      
   cart-service:
     build: ./cart-service
     ports:
       - "3004:3004"
     environment:
       - NODE_ENV=production
-      - DB_HOST=mysql-db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - DB_HOST=cart-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=cart_db
       - DB_PORT=3306
+      - RETRY_CONNECT=10
     depends_on:
-      - mysql-db
-    volumes:
-      - ./monitoring:/app/monitoring
+      cart-db:
+        condition: service_healthy
+    command: node server.js  # Simplified command
+    restart: on-failure
 
+  # Order Service with dedicated database
+  order-db:
+    image: mysql:8.0
+    ports:
+      - "3305:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=order_db
+    volumes:
+      - order-db-data:/var/lib/mysql
+      - ./db-init/order:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+      
   order-service:
     build: ./order-service
     ports:
       - "3005:3005"
     environment:
       - NODE_ENV=production
-      - DB_HOST=mysql-db
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_NAME=${DB_NAME}
+      - DB_HOST=order-db
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=order_db
       - DB_PORT=3306
+      - RETRY_CONNECT=10
     depends_on:
-      - mysql-db
-    volumes:
-      - ./monitoring:/app/monitoring
+      order-db:
+        condition: service_healthy
+    command: node server.js  # Simplified command
+    restart: on-failure
 
-  mysql-db:
-    image: mysql:8.0
-    ports:
-      - "3306:3306"
-    environment:
-      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
-      - MYSQL_DATABASE=${DB_NAME}
-    volumes:
-      - mysql-data:/var/lib/mysql
-
+  # Keep prometheus, grafana configurations unchanged
   prometheus:
     image: prom/prometheus
     ports:
@@ -130,5 +207,8 @@ services:
       - prometheus
 
 volumes:
-  mysql-data:
+  user-db-data:
+  product-db-data:
+  cart-db-data:
+  order-db-data:
   product-uploads:

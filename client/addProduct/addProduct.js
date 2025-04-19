@@ -33,7 +33,7 @@ document
 
     try {
       // Send POST request to API
-      const response = await fetch("http://localhost:3000/api/product", {
+      const response = await fetch("http://localhost:3010/api/product", {
         method: "POST",
         body: formData, // Send FormData
         headers: {

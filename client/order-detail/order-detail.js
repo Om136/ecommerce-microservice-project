@@ -34,7 +34,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to call API to get order details
   function fetchOrderDetails() {
-    fetch(`http://localhost:3000/api/order/items/${id}`, {
+    fetch(`http://localhost:3010/api/order/items/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
   function updateOrderStatus() {
     const selectedStatus = document.getElementById("orderStatus").value;
 
-    fetch(`http://localhost:3000/api/order/${id}`, {
+    fetch(`http://localhost:3010/api/order/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .addEventListener("click", updateOrderStatus);
 
   function fetchOrderInfo() {
-    fetch(`http://localhost:3000/api/order/${id}`, {
+    fetch(`http://localhost:3010/api/order/${id}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

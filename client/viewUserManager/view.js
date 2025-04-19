@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     .split("=")[1];
 
   function fetchProducts() {
-    fetch("http://localhost:3000/api/user/allUser", {
+    fetch("http://localhost:3010/api/user/allUser", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function deleteProduct(id) {
-    fetch(`http://localhost:3000/api/user/delete/${id}`, {
+    fetch(`http://localhost:3010/api/user/delete/${id}`, {
       method: "DELETE",
       headers: {
         Authorization: `Bearer ${token}`,

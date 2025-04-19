@@ -12,7 +12,7 @@ async function fetchCart() {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/cart`, {
+    const response = await fetch(`http://localhost:3010/api/cart`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -37,7 +37,7 @@ async function fetchCart() {
 async function fetchProducts(productIds) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/product?ids=${productIds.join(",")}`,
+      `http://localhost:3010/api/product?ids=${productIds.join(",")}`,
       {
         method: "GET",
         headers: {
@@ -111,7 +111,7 @@ function createCartItemElement(item, product) {
   itemElement.classList.add("cart-item");
 
   const productImage = document.createElement("img");
-  productImage.src = `http://localhost:3000/${product.image}`; // Get image path
+  productImage.src = `http://localhost:3010/${product.image}`; // Get image path
 
   itemElement.innerHTML = `
         <img src="${productImage.src}" alt="${
@@ -154,7 +154,7 @@ function createCartItemElement(item, product) {
 
 async function updateCartItemQuantity(cartId, newQuantity) {
   try {
-    const response = await fetch(`http://localhost:3000/api/cart/${cartId}`, {
+    const response = await fetch(`http://localhost:3010/api/cart/${cartId}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -197,7 +197,7 @@ function formatCurrency(amount) {
 // Handle remove product event
 async function removeItem(id) {
   try {
-    const response = await fetch(`http://localhost:3000/api/cart/${id}`, {
+    const response = await fetch(`http://localhost:3010/api/cart/${id}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -228,7 +228,7 @@ document.querySelector(".cart-items").addEventListener("click", (event) => {
 // Handle payment API call
 // async function handlePayment(orderId) {
 //   try {
-//     const response = await fetch("http://localhost:3000/api/order/payment", {
+//     const response = await fetch("http://localhost:3010/api/order/payment", {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",
@@ -269,7 +269,7 @@ async function createOrder() {
   }
 
   try {
-    const response = await fetch(`http://localhost:3000/api/order`, {
+    const response = await fetch(`http://localhost:3010/api/order`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -289,7 +289,7 @@ async function createOrder() {
 
         // Call API to get product info based on product_id
         const productResponse = await fetch(
-          `http://localhost:3000/api/product/${productId}`,
+          `http://localhost:3010/api/product/${productId}`,
           {
             method: "GET",
             headers: {

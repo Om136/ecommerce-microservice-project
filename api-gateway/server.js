@@ -1,16 +1,19 @@
 const express = require("express");
 const { createProxyMiddleware } = require("http-proxy-middleware");
 const cors = require("cors");
-const metrics = require("../monitoring/metrics");
+const metrics = require("./monitoring/metrics");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: true,
-    credentials: true,
-  })
-);
+// Improved CORS configuration
+app.use(cors({
+  origin: ['/*', 'http://localhost:8081/*', 'http://localhost:8080/*', 'http://localhost:5500/*', 'http://127.0.0.1:5500/*', 'http://127.0.0.1:8080/*', 'http://127.0.0.1:8081/*'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  preflightContinue: false,
+  optionsSuccessStatus: 204
+}));
 
 // Metrics middleware
 app.use((req, res, next) => {
@@ -30,14 +33,14 @@ app.use((req, res, next) => {
 // Expose metrics endpoint
 app.get("/metrics", async (req, res) => {
   res.setHeader("Content-Type", metrics.register.contentType);
-  const metrics = await metrics.register.metrics();
-  res.send(metrics);
+  const metric = await metrics.register.metrics();
+  res.send(metric);
 });
 
 app.use(
   "/api/auth",
   createProxyMiddleware({
-    target: "http://localhost:3001/api/auth",
+    target: "http://auth-service:3001/api/auth",
     changeOrigin: true,
   })
 );
@@ -45,7 +48,7 @@ app.use(
 app.use(
   "/api/user",
   createProxyMiddleware({
-    target: "http://localhost:3002/api/user",
+    target: "http://user-service:3002/api/user",
     changeOrigin: true,
   })
 );
@@ -53,7 +56,7 @@ app.use(
 app.use(
   "/api/product",
   createProxyMiddleware({
-    target: "http://localhost:3003/api/product",
+    target: "http://product-service:3003/api/product",
     changeOrigin: true,
   })
 );
@@ -61,7 +64,7 @@ app.use(
 app.use(
   "/api/category",
   createProxyMiddleware({
-    target: "http://localhost:3003/api/category",
+    target: "http://product-service:3003/api/category",
     changeOrigin: true,
   })
 );
@@ -69,7 +72,7 @@ app.use(
 app.use(
   "/uploads",
   createProxyMiddleware({
-    target: "http://localhost:3003/uploads",
+    target: "http://product-service:3003/uploads",
     changeOrigin: true,
   })
 );
@@ -77,7 +80,7 @@ app.use(
 app.use(
   "/api/cart",
   createProxyMiddleware({
-    target: "http://localhost:3004/api/cart",
+    target: "http://cart-service:3004/api/cart",
     changeOrigin: true,
   })
 );
@@ -85,7 +88,7 @@ app.use(
 app.use(
   "/api/order",
   createProxyMiddleware({
-    target: "http://localhost:3005/api/order",
+    target: "http://order-service:3005/api/order",
     changeOrigin: true,
   })
 );
@@ -93,7 +96,7 @@ app.use(
 app.use(
   "/api/statistical",
   createProxyMiddleware({
-    target: "http://localhost:3005/api/statistical",
+    target: "http://order-service:3005/api/statistical",
     changeOrigin: true,
   })
 );

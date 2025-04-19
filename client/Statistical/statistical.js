@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to call API to get statistical data by year
   function fetchStatisticalData(year) {
-    fetch(`http://localhost:3000/api/statistical`, {
+    fetch(`http://localhost:3010/api/statistical`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

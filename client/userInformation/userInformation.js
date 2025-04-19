@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const userId = localStorage.getItem("userId");
 
   // Send request to get user information
-  fetch(`http://localhost:3000/api/user/getUser/${userId}`, {
+  fetch(`http://localhost:3010/api/user/getUser/${userId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -45,7 +45,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const birthday = document.getElementById("birthday").value;
 
     // Send request to update user information
-    fetch(`http://localhost:3000/api/user/update/${userId}`, {
+    fetch(`http://localhost:3010/api/user/update/${userId}`, {
       // Update API endpoint
       method: "PUT",
       headers: {

@@ -41,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Function to fetch product data from API
   function fetchProducts() {
-    fetch("http://localhost:3000/api/product")
+    fetch("http://localhost:3010/api/product")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -172,7 +172,7 @@ document.addEventListener("DOMContentLoaded", function () {
       return;
     }
 
-    fetch(`http://localhost:3000/api/product/delete/${id}`, {
+    fetch(`http://localhost:3010/api/product/delete/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",

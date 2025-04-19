@@ -5,7 +5,7 @@ const id = urlParams.get("id");
 // Check if id exists
 if (id) {
   // Call API to get product information
-  fetch(`http://localhost:3000/api/product/${id}`)
+  fetch(`http://localhost:3010/api/product/${id}`)
     .then((response) => response.json())
     .then((data) => {
       // Update product information in the form
@@ -84,7 +84,7 @@ document
 
     try {
       // Send PATCH request to API
-      const response = await fetch(`http://localhost:3000/api/product/${id}`, {
+      const response = await fetch(`http://localhost:3010/api/product/${id}`, {
         method: "PUT",
         body: formData, // Send FormData
         headers: {

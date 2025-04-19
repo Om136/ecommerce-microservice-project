@@ -22,7 +22,7 @@ window.onload = function () {
 // Function to fetch product data from API
 function fetchProducts() {
   console.log("Fetching products from API..."); // Add this log
-  fetch("http://localhost:3000/api/product", {
+  fetch("http://localhost:3010/api/product", {
     headers: {
       "Content-Type": "application/json",
     },
@@ -67,7 +67,7 @@ function renderProducts(products) {
       productItem.classList.add("product-item");
 
       const productImage = document.createElement("img");
-      productImage.src = `http://localhost:3000/${product.image}`;
+      productImage.src = `http://localhost:3010/${product.image}`;
       productImage.alt = product.name;
 
       const productName = document.createElement("div");
@@ -194,7 +194,7 @@ document.querySelectorAll(".category-card").forEach((card) => {
     const categoryId = card.getAttribute("data-category-id"); // Get category ID
 
     // Call API to get products by category
-    fetch(`http://localhost:3000/api/category/${categoryId}`)
+    fetch(`http://localhost:3010/api/category/${categoryId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -216,7 +216,7 @@ document.querySelectorAll(".category-card").forEach((card) => {
 // Function to search products
 function searchProducts(term) {
   console.log("Sending search term to API:", term); // Log the search term
-  fetch(`http://localhost:3000/api/product/search`, {
+  fetch(`http://localhost:3010/api/product/search`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

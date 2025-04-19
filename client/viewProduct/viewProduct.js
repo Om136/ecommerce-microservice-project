@@ -6,7 +6,7 @@ const productId = urlParams.get("id"); // Example URL is ?id=123 then get id = 1
 async function fetchCategoryDetails(categoryId) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/category/category/${categoryId}`
+      `http://localhost:3010/api/category/category/${categoryId}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch category");
@@ -28,7 +28,7 @@ async function fetchCategoryDetails(categoryId) {
 async function fetchProductDetails() {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/product/${productId}`
+      `http://localhost:3010/api/product/${productId}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch product");
@@ -62,7 +62,7 @@ async function fetchProductDetails() {
 
     // Update image if available
     const productImage = document.querySelector(".product-image");
-    productImage.src = `http://localhost:3000/${product.image}`;
+    productImage.src = `http://localhost:3010/${product.image}`;
     productImage.alt = product.name;
 
     // Add event listeners for quantity increment/decrement and Add to Cart button
@@ -105,7 +105,7 @@ async function fetchProductDetails() {
 async function fetchRelatedProducts(categoryId) {
   try {
     const response = await fetch(
-      `http://localhost:3000/api/product/category?category_id=${categoryId}`
+      `http://localhost:3010/api/product/category?category_id=${categoryId}`
     );
     if (!response.ok) {
       throw new Error("Failed to fetch related products");
@@ -130,7 +130,7 @@ function renderRelatedProducts(products) {
     card.className = "card";
     card.innerHTML = `
             <a href="viewProduct.html?id=${product.id}" class="d-block">
-                <img src="http://localhost:3000/${
+                <img src="http://localhost:3010/${
                   product.image
                 }" class="card-img-top" alt="${product.name}">
             </a>
@@ -196,7 +196,7 @@ async function createCart(product_id, quantity) {
   };
 
   try {
-    const response = await fetch("http://localhost:3000/api/cart", {
+    const response = await fetch("http://localhost:3010/api/cart", {
       method: "POST",
       body: JSON.stringify(data),
       headers: {
