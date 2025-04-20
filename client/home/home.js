@@ -1,12 +1,9 @@
+import { API_URL } from "../config.js";
+
 document.getElementById("reset-sort").addEventListener("click", function () {
   console.log("Reset sort");
   location.reload(true);
 });
-
-// document.getElementById("reset-search").addEventListener("click", function () {
-//   console.log("Reset search");
-//   location.reload(true);
-// });
 
 // Global variable to store the product list
 let productList = [];
@@ -22,7 +19,7 @@ window.onload = function () {
 // Function to fetch product data from API
 function fetchProducts() {
   console.log("Fetching products from API..."); // Add this log
-  fetch("http://localhost:3000/api/product", {
+  fetch(`${API_URL}/api/product`, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -67,7 +64,7 @@ function renderProducts(products) {
       productItem.classList.add("product-item");
 
       const productImage = document.createElement("img");
-      productImage.src = `http://localhost:3000/${product.image}`;
+      productImage.src = `${API_URL}/${product.image}`;
       productImage.alt = product.name;
 
       const productName = document.createElement("div");
@@ -194,7 +191,7 @@ document.querySelectorAll(".category-card").forEach((card) => {
     const categoryId = card.getAttribute("data-category-id"); // Get category ID
 
     // Call API to get products by category
-    fetch(`http://localhost:3000/api/category/${categoryId}`)
+    fetch(`${API_URL}/api/category/${categoryId}`)
       .then((response) => {
         if (!response.ok) {
           throw new Error("Network response was not ok");
@@ -216,7 +213,7 @@ document.querySelectorAll(".category-card").forEach((card) => {
 // Function to search products
 function searchProducts(term) {
   console.log("Sending search term to API:", term); // Log the search term
-  fetch(`http://localhost:3000/api/product/search`, {
+  fetch(`${API_URL}/api/product/search`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
