@@ -7,7 +7,7 @@ const app = express();
 
 // Improved CORS configuration
 app.use(cors({
-  origin: ['/*', 'http://localhost:8081/*', 'http://localhost:8080/*', 'http://localhost:5500/*', 'http://127.0.0.1:5500/*', 'http://127.0.0.1:8080/*', 'http://127.0.0.1:8081/*'],
+  origin: ['/*', 'http://localhost:8081/*', 'http://localhost:8080/*', 'http://localhost:5500/*', 'http://127.0.0.1:5500/*', 'http://127.0.0.1:8080/*', 'http://127.0.0.1:8081/*', "https://ecommerce-cf-worker.bb.workers.dev/*"],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
@@ -101,6 +101,6 @@ app.use(
   })
 );
 
-app.listen(3000, () => {
-  console.log("API Gateway running on http://localhost:3000");
+app.listen(3010, () => {
+  console.log("API Gateway running on http://localhost:3010");
 });

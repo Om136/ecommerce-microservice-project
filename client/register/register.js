@@ -53,7 +53,7 @@ document
 
       if (response.ok) {
         // Optionally, redirect to another page
-        window.location.href = "../login/login.html";
+        // window.location.href = "../login/login.html";
       } else {
         // Display error message from API
         errorMessage.textContent =

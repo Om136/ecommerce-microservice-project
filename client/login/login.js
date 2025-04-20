@@ -1,3 +1,4 @@
+// const { API_URL } = require("../config")
 document
   .getElementById("loginForm")
   .addEventListener("submit", async function (event) {
@@ -24,12 +25,14 @@ document
     };
 
     try {
-      const response = await fetch("http://localhost:3010/api/user/login", {
+      const response = await fetch(`${API_URL}/api/user/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+        mode: "cors",
+        
         credentials: "include", // Allow sending and receiving cookies
       });
 
