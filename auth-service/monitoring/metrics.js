@@ -17,12 +17,59 @@ const httpRequestsTotal = new client.Counter({
   labelNames: ["method", "route", "status_code"],
 });
 
+// Add CPU and memory usage metrics
+const cpuUsageGauge = new client.Gauge({
+  name: "process_cpu_usage",
+  help: "Process CPU usage percentage",
+});
+
+const memoryUsageGauge = new client.Gauge({
+  name: "process_memory_usage_bytes",
+  help: "Process memory usage in bytes",
+  labelNames: ["type"],
+});
+
 // Register metrics
 register.registerMetric(httpRequestDurationMicroseconds);
 register.registerMetric(httpRequestsTotal);
+register.registerMetric(cpuUsageGauge);
+register.registerMetric(memoryUsageGauge);
+
+// Update CPU and memory metrics every 5 seconds
+let lastCpuUsage = process.cpuUsage();
+let lastHrTime = process.hrtime();
+
+setInterval(() => {
+  // Update CPU metrics
+  const currentCpuUsage = process.cpuUsage();
+  const currentHrTime = process.hrtime();
+  
+  const elapsedUser = currentCpuUsage.user - lastCpuUsage.user;
+  const elapsedSystem = currentCpuUsage.system - lastCpuUsage.system;
+  
+  const elapsedTimeInMs = 
+    (currentHrTime[0] - lastHrTime[0]) * 1000 +
+    (currentHrTime[1] - lastHrTime[1]) / 1000000;
+  
+  const cpuPercent = ((elapsedUser + elapsedSystem) / 1000) / elapsedTimeInMs * 100;
+  
+  cpuUsageGauge.set(cpuPercent);
+  
+  lastCpuUsage = currentCpuUsage;
+  lastHrTime = currentHrTime;
+  
+  // Update memory metrics
+  const memoryData = process.memoryUsage();
+  memoryUsageGauge.labels('rss').set(memoryData.rss);
+  memoryUsageGauge.labels('heapTotal').set(memoryData.heapTotal);
+  memoryUsageGauge.labels('heapUsed').set(memoryData.heapUsed);
+  memoryUsageGauge.labels('external').set(memoryData.external);
+}, 5000);
 
 module.exports = {
   register,
   httpRequestDurationMicroseconds,
   httpRequestsTotal,
+  cpuUsageGauge,
+  memoryUsageGauge
 };
